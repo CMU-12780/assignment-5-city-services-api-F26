@@ -3,7 +3,7 @@ Example test file for Bridges router
 Use this as a reference for testing your own routers
 
 To run tests:
-1. Install pytest: pip install pytest httpx
+1. Install pytest: pip install pytest httpx2
 2. Run: pytest test_bridges_example.py -v
 """
 from fastapi.testclient import TestClient

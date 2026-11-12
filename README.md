@@ -1,11 +1,11 @@
 # City Infrastructure Monitoring API
 
-A FastAPI project for monitoring municipal infrastructure. Please contribute an independent router module for a different infrastructure type (18 types total: street lights, traffic signals, water quality, potholes, trees, parking meters, fire hydrants, building permits, noise complaints, sidewalks, public parks, bus stops, bike lanes, air quality sensors, storm drains, crosswalks, and road sections).
+A FastAPI project for monitoring municipal infrastructure. Please contribute an independent router module for a different infrastructure type (17 types total: street lights, traffic signals, water quality, potholes, trees, parking meters, fire hydrants, building permits, noise complaints, sidewalks, public parks, bus stops, bike lanes, air quality sensors, storm drains, crosswalks, and road sections). Bridges is provided as a complete worked example.
 
 ## Project Structure
 
 ```
-assignment-5-city-services-api/
+assignment-5-city-services-api-F26/
 ├── main.py                      # Main FastAPI application
 ├── database.py                  # Database configuration
 ├── requirements.txt             # Python dependencies
@@ -28,6 +28,8 @@ assignment-5-city-services-api/
 ## Setup Instructions
 
 ### 1. Install Dependencies
+
+Requires Python 3.13 or 3.14.
 
 ```bash
 pip install -r requirements.txt
@@ -148,7 +150,7 @@ class YourResource(BaseModel):
 Define Pydantic models for validation:
 
 ```python
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
 from typing import Optional
 
@@ -280,7 +282,7 @@ app.include_router(
 - [ ] Router registered in `main.py`
 - [ ] Code tested with curl or browser
 - [ ] Follows the Bridges example pattern
-- [ ] Test Resource file that follows test_bridges.py pattern
+- [ ] Test Resource file that follows the `test_bridges_example.py` pattern
 - [ ] 100% pass rate for unit test file
 
 ### Testing Your Router
