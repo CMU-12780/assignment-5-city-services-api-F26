@@ -104,7 +104,64 @@ curl -X PUT "http://localhost:8000/api/bridges/1" \
 curl -X DELETE "http://localhost:8000/api/bridges/1"
 ```
 
-## Student Assignment: Creating Your Router
+## Street Lights Router (Issue #1)
+
+The Street Lights module is in `routers/streetlights/` and is registered at
+`/api/streetlights`. It follows the Bridges example and stores eight fields:
+`location`, `pole_id`, `light_type`, `wattage`, `installation_date`,
+`last_maintenance`, `is_operational`, and `energy_consumption_kwh`.
+IDs and creation/update timestamps are inherited from the shared base model.
+
+### Endpoints
+
+| Method | URL | Result |
+| --- | --- | --- |
+| GET | `/api/streetlights/` | List street lights (200) |
+| POST | `/api/streetlights/` | Create a street light (201) |
+| GET | `/api/streetlights/{id}` | Get a street light (200) |
+| PUT | `/api/streetlights/{id}` | Update the supplied fields (200) |
+| DELETE | `/api/streetlights/{id}` | Delete a street light (204, empty body) |
+
+Missing IDs return 404. Pole IDs must be unique; duplicates return 409.
+Invalid input returns 422. Location and pole ID cannot be blank, wattage must
+be a positive integer, and monthly energy consumption cannot be negative.
+Light types are `LED`, `Sodium`, and `Halogen`. Dates use `YYYY-MM-DD`.
+Optional dates and energy consumption may be cleared with `null` in a PUT;
+required fields may be omitted in a PUT but cannot be set to `null`.
+
+### Try it
+
+Start the application using the setup instructions above, then open
+`http://localhost:8000/docs` and expand **Street Lights**. Example POST body:
+
+```json
+{
+  "location": "Forbes Avenue, Pittsburgh",
+  "pole_id": "PIT-001",
+  "light_type": "LED",
+  "wattage": 80,
+  "installation_date": "2024-05-01",
+  "last_maintenance": "2026-11-01",
+  "is_operational": true,
+  "energy_consumption_kwh": 28.8
+}
+```
+
+The list endpoint accepts `light_type`, `is_operational`, and a case-insensitive
+`search` on location. Filters can be combined. Use `skip` and `limit` for
+pagination (default limit 100, maximum 500). The returned `total` is the number
+of matching records before pagination.
+
+```bash
+curl "http://localhost:8000/api/streetlights/?light_type=LED&is_operational=false&search=Forbes"
+python -m pytest test_streetlights.py test_bridges_example.py -v
+```
+
+Street Lights tests use a fresh in-memory SQLite database for each test.
+They cover CRUD, filters, search, pagination, validation, duplicate pole IDs,
+missing IDs, and OpenAPI registration. The original Bridges tests also pass.
+
+## Student Assignment Instructions
 
 ### Your Task
 
