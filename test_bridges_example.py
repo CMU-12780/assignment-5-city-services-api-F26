@@ -17,7 +17,7 @@ def create_bridge_helper(full_result=False):
     response = client.post(
         "/api/bridges/",
         json={
-            "name": "Test Bridge",
+            "name": "523 W 160th Street",
             "location": "Test City",
             "length_meters": 500.0,
             "width_meters": 20.0,
