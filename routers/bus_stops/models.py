@@ -5,7 +5,7 @@ class BusStops(BaseModel):
     __tablename__ = "bus_stops"
     
     # Add your fields here
-    stop_id = Column(String, nullable=False, index=True, unique=True)
+    bus_stop_id = Column(String, nullable=False, index=True, unique=True)
     location = Column(String, nullable=False)
     routes_served = Column(String, nullable=False)
     has_shelter = Column(Boolean, default=False)
@@ -13,3 +13,7 @@ class BusStops(BaseModel):
     has_lighting = Column(Boolean, default=False)
     daily_boardings_avg = Column(Integer)
     last_maintenance = Column(Date, nullable=True)
+
+    def __repr__(self):
+        return f"<BusStop(id={self.id}, name='{self.name}', location='{self.location}')>"
+    

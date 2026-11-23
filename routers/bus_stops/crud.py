@@ -116,7 +116,7 @@ def update_BusStop(db: Session,
     return bus_stop
     
 
-def delete_resource(db: Session, bus_stop_id: int) -> bool:
+def delete_BusStop(db: Session, bus_stop_id: int) -> bool:
 
     '''
     Delete a bus stop

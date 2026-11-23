@@ -6,7 +6,9 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
 
-# Import routers here as you complete them
+from routers.bus_stops import router as bus_stops_router
+
+
 from routers.bridges import router as bridges_router
 
 # Create database tables
@@ -29,6 +31,13 @@ app.add_middleware(
 
 # Register routers
 # TODO: Add your router here using the pattern below
+
+app.include_router(
+    bus_stops_router,
+    prefix='/api/bus_stops',
+    tags=['Bus Stops']
+)
+
 app.include_router(bridges_router, prefix="/api/bridges", tags=["Bridges"])
 
 @app.get("/")
@@ -54,10 +63,3 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
-from routers.bus_stops import router as bus_stops_router
-
-app.include_router(
-    bus_stops_router,
-    prefix='/api/bus_stops',
-    tags=['Bus Stops']
-)

@@ -40,7 +40,7 @@ class BusStopResponse(BusStopsBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-class BusStopResponse(BaseModel):
+class BusStopListResponse(BaseModel):
     """Schema for list of bus stops"""
     total: int
     bus_stops: list[BusStopResponse]
