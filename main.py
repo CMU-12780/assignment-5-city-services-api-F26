@@ -53,3 +53,11 @@ def health_check():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+from routers.bus_stops import router as bus_stops_router
+
+app.include_router(
+    bus_stops_router,
+    prefix='/api/bus_stops',
+    tags=['Bus Stops']
+)
