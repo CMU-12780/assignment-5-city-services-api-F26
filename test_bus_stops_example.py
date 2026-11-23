@@ -21,7 +21,7 @@ def create_BusStops_helper(full_result=False):
     response = client.post(
         "/api/bus_stops/",
         json={
-            "bus_stop_id": "145",
+            "bus_stop_id": "8",
             "location" : "Fifth Ave",
             "routes_served" : "71B, 71D",
             "has_shelter" : False,
@@ -41,7 +41,7 @@ def test_create_BusStop():
     response = create_BusStops_helper(full_result=True)
     assert response.status_code == 201
     data = response.json()
-    assert data["bus_stop_id"] == "145"
+    assert data["bus_stop_id"] == "7"
     assert data["location"] == "Fifth Ave"
     assert "id" in data
 
