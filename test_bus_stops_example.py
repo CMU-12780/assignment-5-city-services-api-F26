@@ -12,6 +12,7 @@ from datetime import date
 
 
 
+
 client = TestClient(app)
 
 
@@ -26,8 +27,7 @@ def create_BusStops_helper(full_result=False):
             "has_shelter" : False,
             "has_bench" : True,
             "has_lighting" : False,
-            "daily_boardings_avg" :240,
-            "last_maintenance" : date(2026,5,12)
+            "daily_boardings_avg" :240
         }
     )
     if full_result:
@@ -74,7 +74,7 @@ def test_update_BusStop():
 
     # Then update it
     response = client.put(
-        f"/api/bridges/{bus_stop_id}",
+        f"/api/bus_stops/{bus_stop_id}",
         json={"routes_served": "28X"}
     )
     assert response.status_code == 200
@@ -110,7 +110,7 @@ def test_filter_by_route():
 
 def test_search_BusStops():
     """Test searching bus stops"""
-    response = client.get("/api/bus_stops/?search=Test")
+    response = client.get("/api/bus_stops/?search=Fifth Ave")
     assert response.status_code == 200
 
 
