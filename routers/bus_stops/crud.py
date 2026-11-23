@@ -8,7 +8,7 @@ def get_BusStops(
         db: Session,
         skip: int = 0,
         limit: int = 100,
-        id_num: Optional[str] = None,
+        stop_id_num: Optional[str] = None,
         routes: Optional[str] = None,
         search: Optional[str] = None
 ) -> tuple[list[BusStops], int]:
@@ -19,7 +19,7 @@ def get_BusStops(
         db: Database session
         skip: Number of records to skip
         limit: Maxmimum number of records to return
-        id_num: Search for bus stop by id number
+        stop_id_num: Search for bus stop by id number
         routes: Search for bus stop by line
         search: Search term for location
         
@@ -28,10 +28,10 @@ def get_BusStops(
     '''
     query = db.query(BusStops)
 
-    if id_num:
-        search_term = f'%{search}%'
+    if stop_id_num:
+        stop_id_num_term = f'%{stop_id_num}%'
         query = query.filter(
-            BusStops.stop_id.ilike(search_term)
+            BusStops.bus_stop_id.ilike(stop_id_num_term)
         )
 
     if search:
@@ -41,7 +41,7 @@ def get_BusStops(
            )
 
     if routes:
-        clean_search = search.strip()
+        clean_search = routes.strip()
         exact_route = f"%.{clean_search},%"
 
         padded_column = func.concat(",", func.replace(BusStops.routes_served," ",""),",")
@@ -55,7 +55,7 @@ def get_BusStops(
 
 def get_BusStop(db: Session, bus_stop_id: int) -> Optional[BusStops]:
     '''
-    Get a specific bridge by ID
+    Get a specific bus stop by ID
     
     Args:
         db: Database session
@@ -83,7 +83,7 @@ def create_BusStop(db: Session, bus_stop_data: BusStopCreate) -> BusStops:
     bus_stop = BusStops(**bus_stop_data.model_dump())
     db.add(bus_stop)
     db.commit()
-    db.refrech(bus_stop)
+    db.refresh(bus_stop)
     return bus_stop
 
 
@@ -103,7 +103,7 @@ def update_BusStop(db: Session,
         Updated Bus Stop object or None if not found
     '''
 
-    bus_stop = get_BusStops(db,bus_stop_id)
+    bus_stop = get_BusStop(db,bus_stop_id)
     if not bus_stop:
         return None
 
@@ -111,7 +111,7 @@ def update_BusStop(db: Session,
     for field, value in update_data.items():
         setattr(bus_stop, field, value)
 
-    db.commit
+    db.commit()
     db.refresh(bus_stop)
     return bus_stop
     
@@ -129,7 +129,7 @@ def delete_BusStop(db: Session, bus_stop_id: int) -> bool:
        True if deleted, False if not found
     '''
 
-    bus_stop = get_BusStops(db, bus_stop_id)
+    bus_stop = get_BusStop(db, bus_stop_id)
     if not bus_stop:
         return False
 

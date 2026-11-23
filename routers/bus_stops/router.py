@@ -7,11 +7,11 @@ from . import crud
 
 router = APIRouter()
 
-@router.get("/")
+@router.get("/", response_model=BusStopListResponse)
 def list_BusStops(
      skip: int = Query(0, ge=0, description="Number of records to skip"),
      limit: int = Query(100, ge=0, le=500, description="Maximum records to return"),
-     id_num: Optional[str] = Query(None, description="Search in name or location"),
+     stop_id_num: Optional[str] = Query(None, description="Search in name or location"),
      routes: Optional[str] = Query(None, description="Search in route numbers"),
      search: Optional[str] = Query(None, description="Search in name of location"),
      db: Session = Depends(get_db)):
@@ -20,7 +20,7 @@ def list_BusStops(
         db=db,
         skip=skip,
         limit=limit,
-        id_num=id_num,
+        stop_id_num=stop_id_num,
         routes=routes,
         search=search
     )
