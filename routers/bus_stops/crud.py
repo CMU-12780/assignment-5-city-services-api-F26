@@ -87,7 +87,7 @@ def create_BusStop(db: Session, bus_stop_data: BusStopCreate) -> BusStops:
     return bus_stop
 
 
-def update_resource(db: Session,
+def update_BusStop(db: Session,
                     bus_stop_id: int,
                     bus_stop_data: BusStopUpdate
                     ) -> Optional[BusStops]:
