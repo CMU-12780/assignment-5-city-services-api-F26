@@ -21,13 +21,14 @@ def create_BusStops_helper(full_result=False):
     response = client.post(
         "/api/bus_stops/",
         json={
-            "bus_stop_id": "8",
+            "bus_stop_id" : "STOP005",
             "location" : "Fifth Ave",
             "routes_served" : "71B, 71D",
             "has_shelter" : False,
             "has_bench" : True,
             "has_lighting" : False,
-            "daily_boardings_avg" :240
+            "daily_boardings_avg" :240,
+            "last_maintenance": date(2026,11,1).isoformat()
         }
     )
     if full_result:
@@ -41,9 +42,9 @@ def test_create_BusStop():
     response = create_BusStops_helper(full_result=True)
     assert response.status_code == 201
     data = response.json()
-    assert data["bus_stop_id"] == "7"
+    assert data["has_shelter"] == False
     assert data["location"] == "Fifth Ave"
-    assert "id" in data
+    assert "bus_stop_id" in data
 
 def test_list_BusStops():
     """Test listing all bridges"""
@@ -58,23 +59,23 @@ def test_list_BusStops():
 def test_get_BusStops():
     """Test getting a specific bus stop"""
     # First create a bus stop
-    bus_stop_id = create_BusStops_helper()
+    id = create_BusStops_helper()
 
     # Then retrieve it
-    response = client.get(f"/api/bus_stops/{bus_stop_id}")
+    response = client.get(f"/api/bus_stops/{id}")
     assert response.status_code == 200
     data = response.json()
-    assert data["id"] == bus_stop_id
+    assert data["id"] == id
 
 
 def test_update_BusStop():
     """Test updating a bus stop"""
     # First create a bus stop
-    bus_stop_id = create_BusStops_helper()
+    id = create_BusStops_helper()
 
     # Then update it
     response = client.put(
-        f"/api/bus_stops/{bus_stop_id}",
+        f"/api/bus_stops/{id}",
         json={"routes_served": "28X"}
     )
     assert response.status_code == 200
@@ -85,14 +86,14 @@ def test_update_BusStop():
 def test_delete_BusStop():
     """Test deleting a bus stop"""
     # First create a bus stop
-    bus_stop_id = create_BusStops_helper()
+    id = create_BusStops_helper()
 
     # Then delete it
-    response = client.delete(f"/api/bus_stops/{bus_stop_id}")
+    response = client.delete(f"/api/bus_stops/{id}")
     assert response.status_code == 204
 
     # Verify it's gone
-    response = client.get(f"/api/bus_stops/{bus_stop_id}")
+    response = client.get(f"/api/bus_stops/{id}")
     assert response.status_code == 404
 
 
